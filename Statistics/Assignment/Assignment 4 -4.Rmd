@@ -1,0 +1,118 @@
+---
+title: "Assignment4_Alketa"
+author: "Alketa Ulaj"
+date: "12th of March, 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Assignment 4
+  
+I. Data: The World Values Survey is an ongoing worldwide survey that polls the world population about perceptions of life, work, family, 
+politics, etc. The most recent phase of the survey that polled 77,882 people from 57 countries estimates that 36.2% of the worlds 
+population agrees with the statement "Men should have more right to a job than women." The survey also estimates that 13.8% of people 
+have a university degree or higher and that 3.6% of people fit both criteria. 
+
+Q1. Are agreeing with the statement "Men should have more right to a job than women" and having a university degree or higher disjoint events?
+
+A1: The definition of disjoint events is that they cannot happen at the same time. According to the paragraph they are not disjoint events. 
+    Due to the amount of people who agree with the statement and posses a uni degree.And nonetheless the probability is not equals 
+    to 0 therefore we can come to the conclusion of them not being disjoint events.
+
+Q2. Draw a Venn diagram summarizing the variables and their associated probabilities.
+
+A2:
+```{r}
+
+library(VennDiagram) ## install package for Venn Diagram
+library(grid) ## install grid package
+
+venn_summary <- draw.pairwise.venn(36.2, 13.8, 3.6, c("Population agreeing", "People who have a degree"),  
+scale = FALSE, 
+fill = c("blue", "red"));
+grid.draw(venn_summary)
+
+```
+
+Q3. What is the probability that a randomly drawn person has a university degree or higher or agrees with 
+   the statement about men having more right to a job than women?
+
+A3: 0.464 
+```{r}
+
+## p(A) = 0.362 p(B) = 0.138 p(A&B) = 0.036
+## p(A|B) = 0.362 + 0.138 - 0.036 = 0.464
+p_a_or_b = (pb + pb - pa&b) ## formula for finding probability of A or B 
+p_a_or_b ## result of the probability
+
+```
+
+Q4. What percent of the world population do not have a university degree and disagree with the statement 
+   about men having more right to a job than women?
+
+A4: The result is 0.536 equivalent to 53.6%
+``` {r} 
+## from the calculations done in the previous question we know that p(A|B) = 0.464, therefore
+## p(!AB) = 1 - 0.464 = 0.536
+p_not_a_b = 1 - (p_a_or_b) ## finding probability of NOT A & B 
+p_not_a_b ## results
+p_not_a_b*100 ## result in percentage
+
+```
+Q5. Does it appear that the event that someone agrees with the statement is independent of the event that they have a university degree or higher?
+
+A5: The events are not independent considering the numeric results that come when we compare P(A&B) with P(A)^P(B) which are not equal, P(A&B)!=P(A)*P(B).
+  
+Q6. What is the probability that at least 1 in 5 randomly selected people to agree with the statement about men having more right to a job than women?
+
+A6: The probability that at least 1 in 5 randomly selected agrees is 0.894 or 89.4%
+```{r}
+p_a <- pa # agree 36.2 = 0.362
+p_na <- 1 - pa # don't agree 1 - 0.362 = 0.638
+total = 1 - p_na^5 ## 1 in 5 randomly selected
+## total = 1 - 0.638^5 = 1 - 0.10570691 = 0.89429308615
+```
+
+II. Data: As of 2009, Swaziland had the highest HIV prevalence in the world. 25.9% of this countrys population is infected with HIV. 
+The ELISA test is one of the first and most accurate tests for HIV. For those who carry HIV, the ELISA test is 99.7% accurate. 
+For those who do not carry HIV, the test is 92.6% accurate. If an individual from Swaziland has tested positive, 
+what is the probability that he carries HIV? Create a tree diagram to calculate the probability.
+
+Q1. If an individual from Swaziland has tested positive, what is the probability that he carries HIV?
+
+P(HIV) = 0.259
+P(!HIV) = 0.741
+P(HIV_POS_E) = 0.997 -> ! = 0.003
+P(HIV_NEG_E) = 0.926 -> ! = 0.038
+
+A3: P(HIV_POSITIVE) = (0.259 * 0.997) + (0.926 * 0.038) = 0.258 + 0.035 = 0.293
+    P(HIV_POS_TOTAL) = 0.258 / 0.293 = 0.8813
+    88.13%
+ 
+Q2. According to a 2013 Gallup poll, worldwide only 13% of employees are engaged at work (psychologically committed to their jobs and likely to be making positive contributions to their organizations). Among a random sample of 10 employees, what is the probability that 8 of them are engaged at work?
+
+A3: dbinom(8, size = 10, p = 0.13)
+    2.77842e-06
+  
+Q3. Recent study: “Facebook users get more than they give”
+
+  friend requests: 40% made, 63% received at least one
+  likes: liked 14 times, had their content “liked” 20 times, on average
+  messages: sent 9 messages, received 12, on average
+  tags:12% tagged a friend in a photo, but 35% tagged other findings:
+  25% considered power users
+  average Facebook user has 245 friends
+  P(70 or more power user friends) = ?
+  
+A3:  0.112763
+     sum(dbinom(70:245, 245, 0.25))
+
+
+Q4. According to a 2014 Gallup poll, 56% of uninsured Americans who plan to get health insurance say they will do so through a government health insurance exchange. What is the probability that in a random sample of 10 people exactly 6 plan to get health insurance through a government health insurance exchange?
+
+A4: 0.2427494
+    dbinom(6, size = 10, p = 0.56)
+  
+  
